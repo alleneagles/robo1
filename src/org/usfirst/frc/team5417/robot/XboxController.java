@@ -18,11 +18,14 @@ import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tReso
  */
 public class XboxController  {
 
-    static final byte kDefaultXAxis = 0;
-    static final byte kDefaultYAxis = 1;
+    static final byte kDefaultLXAxis = 0;
+    static final byte kDefaultLYAxis = 1;
+
+    static final byte kDefaultRXAxis = 4;
+    static final byte kDefaultRYAxis = 5;
+
     static final byte kDefaultZAxis = 2;
     static final byte kDefaultTwistAxis = 2;
-//    static final byte kDefaultThrottleAxis = 3;
     static final int kDefaultTriggerButton = 1;
     static final int kDefaultTopButton = 2;
 
@@ -38,11 +41,9 @@ public class XboxController  {
         static final int kLX_val = 0;
         static final int kLY_val = 1;
         static final int kZ_val = 2;
-        static final int kTwist_val = 3;
+//        static final int kTwist_val = 3;
         static final int kRX_val = 4;
         static final int kRY_val = 5;
-//        // not used at the moment
-//        static final int kThrottle_val = 6;
         static final int kNumAxis_val = 6;
         
         /**
@@ -57,10 +58,10 @@ public class XboxController  {
          * axis: z-axis
          */
         public static final AxisType kZ = new AxisType(kZ_val);
-        /**
-         * axis: twist
-         */
-        public static final AxisType kTwist = new AxisType(kTwist_val);
+//        /**
+//         * axis: twist
+//         */
+//        public static final AxisType kTwist = new AxisType(kTwist_val);
         /**
          * axis: x-axis
          */
@@ -84,7 +85,7 @@ public class XboxController  {
     }
 
     /**
-     * Represents a digital button on the JoyStick
+     * Represents a digital button on the XboxController
      */
     public static class ButtonType {
 
@@ -115,7 +116,7 @@ public class XboxController  {
     
     
     /**
-     * Represents a rumble output on the JoyStick
+     * Represents a rumble output on the XboxController
      */
     public static class RumbleType {
 
@@ -151,18 +152,18 @@ public class XboxController  {
      * Construct an instance of an XboxController.
      * The XBoxController index is the usb port on the drivers station.
      *
-     * @param port The port on the driver station that the joystick is plugged into.
+     * @param port The port on the driver station that the XboxController is plugged into.
      */
     public XboxController(final int port) {
         this(port, AxisType.kNumAxis.value, ButtonType.kNumButton.value);
 
-        m_axes[AxisType.kLX.value] = kDefaultXAxis;
-        m_axes[AxisType.kLY.value] = kDefaultYAxis;
+        m_axes[AxisType.kLX.value] = kDefaultLXAxis;
+        m_axes[AxisType.kLY.value] = kDefaultLYAxis;
         m_axes[AxisType.kZ.value] = kDefaultZAxis;
-        m_axes[AxisType.kTwist.value] = kDefaultTwistAxis;
+//        m_axes[AxisType.kTwist.value] = kDefaultTwistAxis;
 //        m_axes[AxisType.kThrottle.value] = kDefaultThrottleAxis;
-        m_axes[AxisType.kRX.value] = kDefaultXAxis;
-        m_axes[AxisType.kRY.value] = kDefaultYAxis;
+        m_axes[AxisType.kRX.value] = kDefaultRXAxis;
+        m_axes[AxisType.kRY.value] = kDefaultRYAxis;
 
         m_buttons[ButtonType.kTrigger.value] = kDefaultTriggerButton;
         m_buttons[ButtonType.kTop.value] = kDefaultTopButton;
@@ -176,7 +177,7 @@ public class XboxController  {
      * This constructor allows the subclass to configure the number of constants
      * for axes and buttons.
      *
-     * @param port The port on the driver station that the joystick is plugged into.
+     * @param port The port on the driver station that the XboxController is plugged into.
      * @param numAxisTypes The number of axis types in the enum.
      * @param numButtonTypes The number of button types in the enum.
      */
@@ -188,75 +189,75 @@ public class XboxController  {
     }
 
     /**
-     * Get the X value of the joystick.
-     * This depends on the mapping of the joystick connected to the current port.
+     * Get the X value of the XboxController.
+     * This depends on the mapping of the XboxController connected to the current port.
      *
      * @param hand Unused
-     * @return The X value of the joystick.
+     * @return The X value of the XboxController.
      */
     public double getLX(Hand hand) {
         return getRawAxis(m_axes[AxisType.kLX.value]);
     }
 
     /**
-     * Get the Y value of the joystick.
-     * This depends on the mapping of the joystick connected to the current port.
+     * Get the Y value of the XboxController.
+     * This depends on the mapping of the XboxController connected to the current port.
      *
      * @param hand Unused
-     * @return The Y value of the joystick.
+     * @return The Y value of the XboxController.
      */
     public double getLY(Hand hand) {
         return getRawAxis(m_axes[AxisType.kLY.value]);
     }
 
     /**
-     * Get the X value of the joystick.
-     * This depends on the mapping of the joystick connected to the current port.
+     * Get the X value of the XboxController.
+     * This depends on the mapping of the XboxController connected to the current port.
      *
      * @param hand Unused
-     * @return The X value of the joystick.
+     * @return The X value of the XboxController.
      */
     public double getRX(Hand hand) {
         return getRawAxis(m_axes[AxisType.kRX.value]);
     }
 
     /**
-     * Get the Y value of the joystick.
-     * This depends on the mapping of the joystick connected to the current port.
+     * Get the Y value of the XboxController.
+     * This depends on the mapping of the XboxController connected to the current port.
      *
      * @param hand Unused
-     * @return The Y value of the joystick.
+     * @return The Y value of the XboxController.
      */
     public double getRY(Hand hand) {
         return getRawAxis(m_axes[AxisType.kRY.value]);
     }
 
     /**
-     * Get the Z value of the joystick.
-     * This depends on the mapping of the joystick connected to the current port.
+     * Get the Z value of the XboxController.
+     * This depends on the mapping of the XboxController connected to the current port.
      *
      * @param hand Unused
-     * @return The Z value of the joystick.
+     * @return The Z value of the XboxController.
      */
     public double getZ(Hand hand) {
         return getRawAxis(m_axes[AxisType.kZ.value]);
     }
 
-    /**
-     * Get the twist value of the current joystick.
-     * This depends on the mapping of the joystick connected to the current port.
-     *
-     * @return The Twist value of the joystick.
-     */
-    public double getTwist() {
-        return getRawAxis(m_axes[AxisType.kTwist.value]);
-    }
+//    /**
+//     * Get the twist value of the current XboxController.
+//     * This depends on the mapping of the XboxController connected to the current port.
+//     *
+//     * @return The Twist value of the XboxController.
+//     */
+//    public double getTwist() {
+//        return getRawAxis(m_axes[AxisType.kTwist.value]);
+//    }
 
 //    /**
-//     * Get the throttle value of the current joystick.
-//     * This depends on the mapping of the joystick connected to the current port.
+//     * Get the throttle value of the current XboxController.
+//     * This depends on the mapping of the XboxController connected to the current port.
 //     *
-//     * @return The Throttle value of the joystick.
+//     * @return The Throttle value of the XboxController.
 //     */
 //    public double getThrottle() {
 //        return getRawAxis(m_axes[AxisType.kThrottle.value]);
@@ -273,9 +274,9 @@ public class XboxController  {
     }
 
     /**
-     * For the current joystick, return the axis determined by the argument.
+     * For the current XboxController, return the axis determined by the argument.
      *
-     * This is for cases where the joystick axis is returned programatically, otherwise one of the
+     * This is for cases where the XboxController axis is returned programatically, otherwise one of the
      * previous functions would be preferable (for example getX()).
      *
      * @param axis The axis to read.
@@ -289,8 +290,8 @@ public class XboxController  {
             return getLY(Hand.kLeft);
         case AxisType.kZ_val:
             return getZ(Hand.kRight);
-        case AxisType.kTwist_val:
-            return getTwist();
+//        case AxisType.kTwist_val:
+//            return getTwist();
 //        case AxisType.kThrottle_val:
 //            return getThrottle();
         case AxisType.kRX_val:
@@ -303,18 +304,18 @@ public class XboxController  {
     }
 
     /**
-    * For the current joystick, return the number of axis
+    * For the current XboxController, return the number of axis
     */
     public int getAxisCount(){
         return m_ds.getStickAxisCount(m_port);
     }
 
     /**
-     * Read the state of the trigger on the joystick.
+     * Read the state of the trigger on the XboxController.
      *
      * Look up which button has been assigned to the trigger and read its state.
      *
-     * @param hand This parameter is ignored for the Joystick class and is only here to complete the GenericHID interface.
+     * @param hand This parameter is ignored for the XboxController class and is only here to complete the GenericHID interface.
      * @return The state of the trigger.
      */
     public boolean getTrigger(Hand hand) {
@@ -322,11 +323,11 @@ public class XboxController  {
     }
 
     /**
-     * Read the state of the top button on the joystick.
+     * Read the state of the top button on the XboxController.
      *
      * Look up which button has been assigned to the top and read its state.
      *
-     * @param hand This parameter is ignored for the Joystick class and is only here to complete the GenericHID interface.
+     * @param hand This parameter is ignored for the XboxController class and is only here to complete the GenericHID interface.
      * @return The state of the top button.
      */
     public boolean getTop(Hand hand) {
@@ -334,10 +335,10 @@ public class XboxController  {
     }
 
     /**
-     * This is not supported for the Joystick.
+     * This is not supported for the XboxController.
      * This method is only here to complete the GenericHID interface.
      *
-     * @param hand This parameter is ignored for the Joystick class and is only here to complete the GenericHID interface.
+     * @param hand This parameter is ignored for the XboxController class and is only here to complete the GenericHID interface.
      * @return The state of the bumper (always false)
      */
     public boolean getBumper(Hand hand) {
@@ -357,14 +358,14 @@ public class XboxController  {
     }
 
     /**
-    * For the current joystick, return the number of buttons
+    * For the current XboxController, return the number of buttons
     */
     public int getButtonCount(){
         return m_ds.getStickButtonCount(m_port);
     }
 
     /**
-     * Get the state of a POV on the joystick.
+     * Get the state of a POV on the XboxController.
      *
 	 * @param pov The index of the POV to read (starting at 0)
      * @return the angle of the POV in degrees, or -1 if the POV is not pressed.
@@ -374,7 +375,7 @@ public class XboxController  {
     }
 
     /**
-    * For the current joystick, return the number of POVs
+    * For the current XboxController, return the number of POVs
     */
     public int getPOVCount(){
         return m_ds.getStickPOVCount(m_port);
@@ -400,7 +401,7 @@ public class XboxController  {
     }
 
 //    /**
-//     * Get the magnitude of the direction vector formed by the joystick's
+//     * Get the magnitude of the direction vector formed by the XboxController's
 //     * current position relative to its origin
 //     *
 //     * @return The magnitude of the direction vector
@@ -410,7 +411,7 @@ public class XboxController  {
 //    }
 
 //    /**
-//     * Get the direction of the vector formed by the joystick and its origin
+//     * Get the direction of the vector formed by the XboxController and its origin
 //     * in radians
 //     *
 //     * @return The direction of the vector in radians
@@ -420,7 +421,7 @@ public class XboxController  {
 //    }
 //
 //    /**
-//     * Get the direction of the vector formed by the joystick and its origin
+//     * Get the direction of the vector formed by the XboxController and its origin
 //     * in degrees
 //     *
 //     * uses acos(-1) to represent Pi due to absence of readily accessable Pi
@@ -453,7 +454,7 @@ public class XboxController  {
     }
     
     /**
-     * Set the rumble output for the joystick. The DS currently supports 2 rumble values,
+     * Set the rumble output for the XboxController. The DS currently supports 2 rumble values,
      * left rumble and right rumble
      * @param type Which rumble value to set
      * @param value The normalized value (0 to 1) to set the rumble to
@@ -471,7 +472,7 @@ public class XboxController  {
     }
 
     /**
-     * Set a single HID output value for the joystick.
+     * Set a single HID output value for the XboxController.
      * @param outputNumber The index of the output to set (1-32)
      * @param value The value to set the output to
      */
@@ -482,7 +483,7 @@ public class XboxController  {
     }
 
     /**
-     * Set all HID output values for the joystick.
+     * Set all HID output values for the XboxController.
      * @param value The 32 bit output value (1 bit for each output)
      */
     public void setOutputs(int value) {

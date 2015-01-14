@@ -1,5 +1,6 @@
 package org.usfirst.frc.team5417.robot;
 
+// THIS IS THE FIRST ATTEMPT
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;

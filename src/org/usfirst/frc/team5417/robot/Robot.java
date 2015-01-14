@@ -33,6 +33,9 @@ public class Robot extends SampleRobot {
         stick = new Joystick(0);
     }
 
+    public void Dummy()
+    {
+    }
     /**
      * Drive left & right motors for 2 seconds then stop
      */

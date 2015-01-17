@@ -21,10 +21,12 @@ import edu.wpi.first.wpilibj.Timer;
  * don't. Unless you know what you are doing, complex code will be much more difficult under
  * this system. Use IterativeRobot or Command-Based instead if you're new.
  */
-public class Robot extends SampleRobot {
+public class Robot extends SampleRobot 
+{
     RobotDrive myRobot;  // class that handles basic drive operations
     XboxController controller;  // set to ID 1 in DriverStation
-    public Robot() {
+    public Robot() 
+    {
         myRobot = new RobotDrive(0, 1);
         myRobot.setExpiration(0.1);
         controller = new XboxController(0);
@@ -34,18 +36,15 @@ public class Robot extends SampleRobot {
     /**
      * Runs the motors with tank steering.
      */
-    public void operatorControl() {
+    public void operatorControl() 
+    {
         myRobot.setSafetyEnabled(true);
-        while (isOperatorControl() && isEnabled()) {
-        	if (false == isOperatorControl() && false == isEnabled())
-        	{
-        		int a = 23423942 & (0xFF << 8);
-        	}
-//        	myRobot.tankDrive(leftStick, rightStick);
+        while (isOperatorControl() && isEnabled()) 
+        {
             myRobot.tankDrive(controller.getLY(Hand.kLeft), controller.getRY(Hand.kRight), true);
+            //myRobot.strafeDrive(controller);
         	
             Timer.delay(0.005);		// wait for a motor update time
         }
     }
-
 }

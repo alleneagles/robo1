@@ -25,6 +25,7 @@ public class Robot extends SampleRobot
 {
     RobotDrive myRobot;  // class that handles basic drive operations
     XboxController controller;  // set to ID 1 in DriverStation
+    
     public Robot() 
     {
         myRobot = new RobotDrive(0, 1);
@@ -32,17 +33,17 @@ public class Robot extends SampleRobot
         controller = new XboxController(0);
     }
 
-    
     /**
      * Runs the motors with tank steering.
      */
     public void operatorControl() 
     {
         myRobot.setSafetyEnabled(true);
+       
         while (isOperatorControl() && isEnabled()) 
         {
             myRobot.tankDrive(controller.getLY(Hand.kLeft), controller.getRY(Hand.kRight), true);
-            //myRobot.strafeDrive(controller);
+            myRobot.strafeDrive(controller);
         	
             Timer.delay(0.005);		// wait for a motor update time
         }

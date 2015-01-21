@@ -26,6 +26,7 @@ public class XboxController  {
 
     static final byte kDefaultZAxis = 2;
     static final byte kDefaultTwistAxis = 2;
+    
     static final int kDefaultTriggerButton = 1;
     static final int kDefaultTopButton = 2;
 

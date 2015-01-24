@@ -65,35 +65,64 @@ namespace First.Test
             return trunc / factor;
         }
 
+        // clamps to range, inclusive
+        public double Clamp(double lowerBound, double value, double upperBound)
+        {
+            value = Math.Max(lowerBound, value);
+            value = Math.Min(upperBound, value);
+            return value;
+        }
+
         public void CalcStrafeDrive(out double L, out double R, out double C, out double f, out double t, out double s)
         {
-            double Lfix = 1.0;
-            double Rfix = 1.0;
-            double Sfix = 1.0;
+            const double Lfix = 1.0;
+            const double Rfix = 1.0;
+            const double Sfix = 1.0;
 
             var controller = XboxController.RetrieveController(0);
 
-            f = controller.LeftThumbStick.Y / (double)short.MaxValue;
-            s = controller.LeftThumbStick.X / (double)short.MaxValue;
-            t = controller.RightThumbStick.X / (double)short.MaxValue;
+            f = Clamp(-1.0, controller.LeftThumbStick.Y / (double)short.MaxValue, 1.0);
+            s = Clamp(-1.0, controller.LeftThumbStick.X / (double)short.MaxValue, 1.0);
+            t = Clamp(-1.0, controller.RightThumbStick.X / (double)short.MaxValue, 1.0);
 
             f = SignificantDigits(f, 2);
             s = SignificantDigits(s, 2);
             t = SignificantDigits(t, 2);
 
-            double numerL = Math.Pow(f * 0.5, 2) + Math.Pow(t * 0.5, 2);
-            double numerR = Math.Pow(f * 0.5, 2) - Math.Pow(t * 0.5, 2);
-            double denom = Math.Pow(0.5, 2) + Math.Pow(0.5, 2);
+            double fHalf = f * 0.5;
+            double tHalf = t * 0.5;
+
+            double numerL = fHalf * fHalf + tHalf * tHalf;
+            double numerR = fHalf * fHalf - tHalf * tHalf;
+            const double denom = 0.5 * 0.5 + 0.5 * 0.5;
 
             L = (numerL / denom) * Lfix;
             R = (numerR / denom) * Rfix;
-            C = Math.Pow(s, 2) * Sfix;
+            C = s * s * Sfix;
 
             L = SignificantDigits(L, 2);
             R = SignificantDigits(R, 2);
             C = SignificantDigits(C, 2);
 
-            if (t < 0)
+            const double deadSpaceThreshold = 0.2;
+
+            // gives us our dead space at rest
+            if (t > -deadSpaceThreshold && t < deadSpaceThreshold && f > -deadSpaceThreshold && f < deadSpaceThreshold)
+            {
+                f = t = 0;
+                L = R = 0;
+            }
+
+            // gives us our dead space at rest
+            if (s > -deadSpaceThreshold && s < deadSpaceThreshold)
+            {
+                s = 0;
+                C = 0;
+            }
+
+            // the following 'if' statements should be greater than some minimum threshold because a very small negative value,
+            // even when the sticks are still, could cause the signs of the motor magnitudes to get messed up
+            if (t <= -deadSpaceThreshold)
             {
                 // swap L and R
                 double temp = L;
@@ -101,16 +130,14 @@ namespace First.Test
                 R = temp;
             }
 
-            // this should be greater than some minimum threshold because a very small negative value,
-            // even when the left stick is still, could cause the left and right motors to get messed up
-            if (f < -0.1)
+            if (f <= -deadSpaceThreshold)
             {
                 // invert the signs for L and R
                 L = -L;
                 R = -R;
             }
 
-            if (s < 0)
+            if (s <= -deadSpaceThreshold)
             {
                 // invert the sign for C
                 C = -C;

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.TalonSRX;
 
 public class StrafeDrive {
 
@@ -26,7 +27,7 @@ public class StrafeDrive {
 	private SpeedController _RMotor;
 	private SpeedController _CMotor;
 	
-	private int _LPort = 0, _CPort = 1, _RPort = 2;
+	private int _LPort = 0, _CPort = 2, _RPort = 1;
 	
 	private double _LFix = 1.0;
 	private double _CFix = 1.0;
@@ -34,9 +35,9 @@ public class StrafeDrive {
 	
 	public StrafeDrive() {
 		// TODO: assign values
-		_LMotor = new Talon(_LPort);
-		_RMotor = new Talon(_RPort);
-		_CMotor = new Talon(_CPort);
+		_LMotor = new TalonSRX(_LPort);
+		_RMotor = new TalonSRX(_RPort);
+		_CMotor = new TalonSRX(_CPort);
 	}
 
 	public double Clamp(double lowerBound, double value, double upperBound) {

@@ -25,12 +25,14 @@ public class Robot extends SampleRobot
 {
     RobotDrive myRobot;  // class that handles basic drive operations
     XboxController controller;  // set to ID 1 in DriverStation
+    StrafeDrive strafe;
     
     public Robot() 
     {
         myRobot = new RobotDrive(0, 1);
         myRobot.setExpiration(0.1);
         controller = new XboxController(0);
+        strafe = new StrafeDrive();
     }
 
     /**
@@ -43,7 +45,7 @@ public class Robot extends SampleRobot
         while (isOperatorControl() && isEnabled()) 
         {
             myRobot.tankDrive(controller.getLY(Hand.kLeft), controller.getRY(Hand.kRight), true);
-            myRobot.strafeDrive(controller);
+            strafe.strafeDrive(controller);
         	
             Timer.delay(0.005);		// wait for a motor update time
         }

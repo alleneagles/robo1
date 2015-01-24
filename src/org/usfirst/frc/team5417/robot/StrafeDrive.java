@@ -35,8 +35,8 @@ public class StrafeDrive {
 	
 	public StrafeDrive() {
 		// TODO: assign values
-		_LMotor = new TalonSRX(_LPort);
-		_RMotor = new TalonSRX(_RPort);
+		_LMotor = new Talon(_LPort);
+		_RMotor = new Talon(_RPort);
 		_CMotor = new TalonSRX(_CPort);
 	}
 

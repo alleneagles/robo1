@@ -27,17 +27,15 @@ public class StrafeDrive {
 	private SpeedController _RMotor;
 	private SpeedController _CMotor;
 	
-	private int _LPort = 0, _CPort = 2, _RPort = 1;
-	
 	private double _LFix = 1.0;
 	private double _CFix = 1.0;
 	private double _RFix = 1.0;
 	
-	public StrafeDrive() {
+	public StrafeDrive(int leftPort, int rightPort, int centerPort) {
 		// TODO: assign values
-		_LMotor = new Talon(_LPort);
-		_RMotor = new Talon(_RPort);
-		_CMotor = new TalonSRX(_CPort);
+		_LMotor = new Talon(leftPort);
+		_RMotor = new Talon(rightPort);
+		_CMotor = new TalonSRX(centerPort);
 	}
 
 	public double Clamp(double lowerBound, double value, double upperBound) {

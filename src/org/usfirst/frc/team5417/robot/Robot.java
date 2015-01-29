@@ -29,15 +29,18 @@ public class Robot extends SampleRobot {
 
 	public Robot() {
 		strafeController = new XboxController(0);
-		//manipulatorController = new XboxController(1);
 		strafe = new StrafeDrive(0, 1, 2);
-		//manipulator = new ManipulatorDrive(0, 1, 2, 3, 10, 11);
+        strafe.setExpiration(0.1);
+
+		//manipulatorController = new XboxController(1);
+        //manipulator = new ManipulatorDrive(0, 1, 2, 3, 10, 11);
 	}
 
 	/**
 	 * Runs the motors with tank steering.
 	 */
 	public void operatorControl() {
+        strafe.setSafetyEnabled(true);
 		while (isOperatorControl() && isEnabled()) {
 			strafe.strafeDrive(strafeController);
 			//manipulator.manipulatorControl(manipulatorController);

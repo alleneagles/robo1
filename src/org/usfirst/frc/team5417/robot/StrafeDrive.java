@@ -1,12 +1,14 @@
 package org.usfirst.frc.team5417.robot;
 
+import edu.wpi.first.wpilibj.MotorSafety;
+import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TalonSRX;
 
-public class StrafeDrive {
+public class StrafeDrive implements MotorSafety {
 
 	public class MotorParameters {
 		public double f = 0;
@@ -18,6 +20,9 @@ public class StrafeDrive {
 		public double R = 0;
 
 	}
+
+    public static final double kDefaultExpirationTime = 0.1;
+    protected MotorSafetyHelper m_safetyHelper;
 
 	private boolean _shouldInvertL = false;
 	private boolean _shouldInvertC = false;
@@ -36,6 +41,8 @@ public class StrafeDrive {
 		_LMotor = new Talon(leftPort);
 		_RMotor = new Talon(rightPort);
 		_CMotor = new TalonSRX(centerPort);
+		
+		setupMotorSafety();
 	}
 
 	public double Clamp(double lowerBound, double value, double upperBound) {
@@ -69,10 +76,14 @@ public class StrafeDrive {
 	public void strafeDrive(XboxController controller) {
 		MotorParameters mp = CalcStrafeDrive(controller.getLY(Hand.kLeft),
 				controller.getRX(Hand.kRight), controller.getLX(Hand.kLeft));
-		_LMotor.set (mp.L);
-		_RMotor.set (mp.R);
-		_CMotor.set (mp.C);
 		
+        final byte syncGroup = (byte)0x80;
+
+		_LMotor.set (mp.L, syncGroup);
+		_RMotor.set (mp.R, syncGroup);
+		_CMotor.set (mp.C, syncGroup);
+		
+        if (m_safetyHelper != null) m_safetyHelper.feed();
 	}
 
 	private MotorParameters CalcStrafeDrive(double f, double t, double s) {
@@ -147,4 +158,41 @@ public class StrafeDrive {
 
 		return mp;
 	}
+
+    public void setExpiration(double timeout) {
+        m_safetyHelper.setExpiration(timeout);
+    }
+
+    public double getExpiration() {
+        return m_safetyHelper.getExpiration();
+    }
+
+    public boolean isAlive() {
+        return m_safetyHelper.isAlive();
+    }
+
+    public boolean isSafetyEnabled() {
+        return m_safetyHelper.isSafetyEnabled();
+    }
+
+    public void setSafetyEnabled(boolean enabled) {
+        m_safetyHelper.setSafetyEnabled(enabled);
+    }
+
+    public String getDescription() {
+        return "Strafe Drive";
+    }
+
+    public void stopMotor() {
+    	_LMotor.set(0.0);
+    	_RMotor.set(0.0);
+    	_CMotor.set(0.0);
+        if (m_safetyHelper != null) m_safetyHelper.feed();
+    }
+    
+    private void setupMotorSafety() {
+        m_safetyHelper = new MotorSafetyHelper(this);
+        m_safetyHelper.setExpiration(kDefaultExpirationTime);
+        m_safetyHelper.setSafetyEnabled(true);
+    }
 }

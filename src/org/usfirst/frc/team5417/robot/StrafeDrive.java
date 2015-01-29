@@ -25,9 +25,9 @@ public class StrafeDrive implements MotorSafety {
     public static final double kDefaultExpirationTime = 0.1;
     protected MotorSafetyHelper m_safetyHelper;
 
-	private boolean _shouldInvertL = false;
-	private boolean _shouldInvertC = false;
-	private boolean _shouldInvertR = false;
+	private boolean _shouldInvertL = true;
+	private boolean _shouldInvertC = true;
+	private boolean _shouldInvertR = true;
 
 	private SpeedController _LMotor;
 	private SpeedController _RMotor;

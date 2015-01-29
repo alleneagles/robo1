@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TalonSRX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class StrafeDrive implements MotorSafety {
 
@@ -82,6 +83,8 @@ public class StrafeDrive implements MotorSafety {
 		_LMotor.set (mp.L, syncGroup);
 		_RMotor.set (mp.R, syncGroup);
 		_CMotor.set (mp.C, syncGroup);
+
+		UpdateSmartDashboard(mp);
 		
         if (m_safetyHelper != null) m_safetyHelper.feed();
 	}
@@ -158,7 +161,18 @@ public class StrafeDrive implements MotorSafety {
 
 		return mp;
 	}
+	
+	public void UpdateSmartDashboard(MotorParameters mp)
+	{
+		SmartDashboard.putNumber("Motor 't'", mp.t);
+		SmartDashboard.putNumber("Motor 'f'", mp.f);
+		SmartDashboard.putNumber("Motor 's'", mp.s);
 
+		SmartDashboard.putNumber("Left Motor Speed", mp.L);
+		SmartDashboard.putNumber("Right Motor Speed", mp.R);
+		SmartDashboard.putNumber("Center Motor Speed", mp.C);
+	}
+	
     public void setExpiration(double timeout) {
         m_safetyHelper.setExpiration(timeout);
     }

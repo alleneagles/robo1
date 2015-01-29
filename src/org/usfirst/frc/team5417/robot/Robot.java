@@ -22,18 +22,16 @@ import edu.wpi.first.wpilibj.Timer;
  * instead if you're new.
  */
 public class Robot extends SampleRobot {
-	XboxController strafecontroller;
-	XboxController manipulatorcontroller;
+	XboxController strafeController;
+	XboxController manipulatorController;
 	StrafeDrive strafe;
-	StrafeDrive otherStrafeDrive;
-	ManipulatorDrive manipulator;
+	//ManipulatorDrive manipulator;
 
 	public Robot() {
-		strafecontroller = new XboxController(0);
-		manipulatorcontroller = new XboxController(1);
+		strafeController = new XboxController(0);
+		//manipulatorController = new XboxController(1);
 		strafe = new StrafeDrive(0, 1, 2);
-		otherStrafeDrive = new StrafeDrive(3, 4, 5);
-		manipulator = new ManipulatorDrive(0, 1, 2, 3, 10, 11);
+		//manipulator = new ManipulatorDrive(0, 1, 2, 3, 10, 11);
 	}
 
 	/**
@@ -41,8 +39,8 @@ public class Robot extends SampleRobot {
 	 */
 	public void operatorControl() {
 		while (isOperatorControl() && isEnabled()) {
-			strafe.strafeDrive(strafecontroller);
-			manipulator.manipulatorControl(manipulatorcontroller);
+			strafe.strafeDrive(strafeController);
+			//manipulator.manipulatorControl(manipulatorController);
 
 			Timer.delay(0.005); // wait for a motor update time
 		}

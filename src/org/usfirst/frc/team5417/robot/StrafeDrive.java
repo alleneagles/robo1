@@ -141,12 +141,10 @@ public class StrafeDrive {
 		mp.s = s;
 		mp.t = t;
 
-		mp.L = _shouldInvertL ? - L: L;
-		mp.C = _shouldInvertC ? - C: C;
-		mp.R = _shouldInvertR ? - R: R;
+		mp.L = _shouldInvertL ? -L: L;
+		mp.C = _shouldInvertC ? -C: C;
+		mp.R = _shouldInvertR ? -R: R;
 
 		return mp;
-		
-		
 	}
 }

@@ -26,7 +26,7 @@ public class StrafeDrive implements MotorSafety {
     protected MotorSafetyHelper m_safetyHelper;
 
 	private boolean _shouldInvertL = false;
-	private boolean _shouldInvertC = true;
+	private boolean _shouldInvertC = false;
 	private boolean _shouldInvertR = true;
 
 	private SpeedController _LMotor;

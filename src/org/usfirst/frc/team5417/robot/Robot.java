@@ -29,7 +29,7 @@ public class Robot extends SampleRobot {
 
 	public Robot() {
 		strafeController = new XboxController(0);
-		strafe = new StrafeDrive(0, 1, 2);
+		strafe = new StrafeDrive(1, 0, 2);
         strafe.setExpiration(0.1);
 
 		//manipulatorController = new XboxController(1);

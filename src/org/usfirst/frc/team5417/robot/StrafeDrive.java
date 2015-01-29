@@ -25,7 +25,7 @@ public class StrafeDrive implements MotorSafety {
     public static final double kDefaultExpirationTime = 0.1;
     protected MotorSafetyHelper m_safetyHelper;
 
-	private boolean _shouldInvertL = true;
+	private boolean _shouldInvertL = false;
 	private boolean _shouldInvertC = true;
 	private boolean _shouldInvertR = true;
 
@@ -33,9 +33,9 @@ public class StrafeDrive implements MotorSafety {
 	private SpeedController _RMotor;
 	private SpeedController _CMotor;
 	
-	private double _LFix = 1.0;
-	private double _CFix = 1.0;
-	private double _RFix = 1.0;
+	private double _LFix = 0.4;
+	private double _CFix = 0.4;
+	private double _RFix = 0.3;
 	
 	public StrafeDrive(int leftPort, int rightPort, int centerPort) {
 		// TODO: assign values
@@ -92,7 +92,7 @@ public class StrafeDrive implements MotorSafety {
 	private MotorParameters CalcStrafeDrive(double f, double t, double s) {
 		MotorParameters mp = new MotorParameters();
 
-		f = Clamp(-1.0, f, 1.0);
+		f = Clamp(-1.0, f, 1.0) * -1.0;
 		s = Clamp(-1.0, s, 1.0);
 		t = Clamp(-1.0, t, 1.0);
 

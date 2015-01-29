@@ -1,12 +1,13 @@
 package org.usfirst.frc.team5417.robot;
 
 import org.usfirst.frc.team5417.robot.StrafeDrive.MotorParameters;
-
+import edu.wpi.first.wpilibj.MotorSafety;
+import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 
-public class ManipulatorDrive {
+public class ManipulatorDrive implements MotorSafety {
 
 	public class MotorParameters {
 		public double x, y;
@@ -18,6 +19,8 @@ public class ManipulatorDrive {
 	private DigitalInput _OpenSwitch;
 	private DigitalInput _CloseSwitch;
 
+	protected MotorSafetyHelper m_safetyHelper;
+	
 	private CANTalon _aMotor;
 	private CANTalon _bMotor;
 
@@ -40,6 +43,8 @@ public class ManipulatorDrive {
 				controller.getRY(Hand.kRight));
 		_aMotor.set(mp.A);
 		_bMotor.set(mp.B);
+		
+		if (m_safetyHelper != null) m_safetyHelper.feed();
 	}
 
 	public MotorParameters CalcManipulatorDrive(double x, double y) {
@@ -136,6 +141,36 @@ public class ManipulatorDrive {
 		m.A = A;
 		m.B = B;
 		return m;
+	}
+
+	public void setExpiration(double timeout) {
+		m_safetyHelper.setExpiration(timeout);
+	}
+
+	public double getExpiration() {
+		return m_safetyHelper.getExpiration();
+	}
+
+	public boolean isAlive() {
+		return m_safetyHelper.isAlive();
+	}
+
+	public void stopMotor() {
+		_aMotor.set(0.0);
+		_bMotor.set(0.0);
+		if (m_safetyHelper != null) m_safetyHelper.feed();
+	}
+
+	public void setSafetyEnabled(boolean enabled) {
+		m_safetyHelper.setSafetyEnabled(enabled);
+	}
+
+	public boolean isSafetyEnabled() {
+		return m_safetyHelper.isSafetyEnabled();
+	}
+
+	public String getDescription() {
+		return "Manipulation Drive";
 	}
 
 }

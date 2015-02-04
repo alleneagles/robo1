@@ -24,19 +24,19 @@ import edu.wpi.first.wpilibj.Timer;
 public class Robot extends SampleRobot {
 //	XboxController strafeController;
 	XboxController manipulatorController;
-	StrafeDrive strafe;
+	//StrafeDrive strafe;
 	ManipulatorDrive manipulator;
 
 	public Robot() {
 //		strafeController = new XboxController(0);
-		strafe = new StrafeDrive(1, 0, 2);
-		strafe.setExpiration(0.1);
+		//strafe = new StrafeDrive(1, 0, 2);
+		//strafe.setExpiration(0.1);
 
 		manipulatorController = new XboxController(0);
 		manipulator = new ManipulatorDrive(0, 1, 2, 3, 10, 11);
 		manipulator.setExpiration(0.1);
 
-		GlobalFeeder.addFeedableMotorSafety(strafe);
+		//GlobalFeeder.addFeedableMotorSafety(strafe);
 		GlobalFeeder.addFeedableMotorSafety(manipulator);
 	}
 
@@ -44,10 +44,10 @@ public class Robot extends SampleRobot {
 	 * Runs the motors with Strafe Drive steering.
 	 */
 	public void operatorControl() {
-		strafe.setSafetyEnabled(true);
+		//strafe.setSafetyEnabled(true);
 		manipulator.setSafetyEnabled(true);
 
-		manipulator.moveToInitialPosition();
+		//manipulator.moveToInitialPosition();
 
 		while (isOperatorControl() && isEnabled()) {
 //			strafe.strafeDrive(strafeController);

@@ -4,18 +4,24 @@ import java.util.ArrayList;
 
 public class GlobalFeeder
 {
-	static private ArrayList<Feedable> _feedableMotorSafetyImpls;
+	static private ArrayList<Feedable> _feedableMotorSafetyImpls = new ArrayList<Feedable>();
 
 	static public void addFeedableMotorSafety(Feedable motorController)
 	{
-		_feedableMotorSafetyImpls.add(motorController);
+		if (motorController != null)
+		{
+			_feedableMotorSafetyImpls.add(motorController);
+		}
 	}
 	
 	static public void feedAllMotors()
 	{
 		for (Feedable f : _feedableMotorSafetyImpls)
 		{
-			f.feedAllMotors();
+			if (f != null)
+			{
+				f.feedAllMotors();
+			}
 		}
 	}
 }

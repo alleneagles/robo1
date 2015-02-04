@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.MotorSafetyHelper;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 
 public class ManipulatorDrive implements MotorSafety, Feedable {
@@ -86,9 +87,19 @@ public class ManipulatorDrive implements MotorSafety, Feedable {
 		this.changeControlModeForBothMotors(ControlMode.PercentVbus);
 		
 		MotorParameters mp = CalcManipulatorDrive(leftX, rightY);
+		UpdateSmartDashboard(mp);
 		
 		_aMotor.set(mp.A);
-		_bMotor.set(mp.B);		
+		_bMotor.set(mp.B);
+		
+	}
+	
+	public void UpdateSmartDashboard(MotorParameters mp)
+	{
+		SmartDashboard.putNumber("Manip 'x'", mp.x);
+		SmartDashboard.putNumber("Manip 'y'", mp.y);
+		SmartDashboard.putNumber("Manip 'A'", mp.A);
+		SmartDashboard.putNumber("Manip 'B'", mp.B);
 	}
 	
 	/**
@@ -97,8 +108,13 @@ public class ManipulatorDrive implements MotorSafety, Feedable {
 	 */
 	public void manipulatorControl(XboxController controller) 
 	{
+		GlobalFeeder.feedAllMotors();
+
 		double leftX = controller.getLX(Hand.kLeft);
 		double rightY = controller.getRY(Hand.kRight);
+		
+		SmartDashboard.putNumber("Manip 'LeftX'", leftX);
+		SmartDashboard.putNumber("Manip 'RightY'", rightY);
 		
 		boolean didPressResetPositionButton = false;
 		
@@ -130,6 +146,8 @@ public class ManipulatorDrive implements MotorSafety, Feedable {
 			//
 			if (Math.abs(leftX) > _deadSpaceThreshold || Math.abs(rightY) > _deadSpaceThreshold )
 			{
+				SmartDashboard.putString("Manip Mode", "Free Style");
+
 				moveInDirection(leftX, rightY);
 			}
 			//
@@ -137,6 +155,8 @@ public class ManipulatorDrive implements MotorSafety, Feedable {
 			//
 			else if (didPressResetPositionButton)
 			{
+				SmartDashboard.putString("Manip Mode", "Move to Initial");
+
 				moveToInitialPosition();
 			}
 			//
@@ -155,14 +175,14 @@ public class ManipulatorDrive implements MotorSafety, Feedable {
 	//		}
 			else
 			{
+				SmartDashboard.putString("Manip Mode", "Full Stop");
+
 				this.changeControlModeForBothMotors(ControlMode.Position);
 
 				_aMotor.set(0);
 				_bMotor.set(0);
 			}
 		}
-		
-		GlobalFeeder.feedAllMotors();
 	}
 
 	/**
@@ -185,13 +205,13 @@ public class ManipulatorDrive implements MotorSafety, Feedable {
 		double A = 0, B = 0;
 
 		//if joystick is in middle, do nothing
-		if (x >= -_deadSpaceThreshold && x <= _deadSpaceThreshold)
+		if (Math.abs(x) <= _deadSpaceThreshold)
 		{
 			x = 0;
 		}
 		
 		//if joystick is in middle, do nothing
-		if (y >= -_deadSpaceThreshold && y <= _deadSpaceThreshold)
+		if (Math.abs(y) <= _deadSpaceThreshold)
 		{	
 			y = 0;
 		}

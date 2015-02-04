@@ -33,8 +33,8 @@ public class XboxController  {
     /**
      * Represents an analog axis on a XboxController.
      */
-    public static class AxisType {
-
+    public static class AxisType 
+    {
         /**
          * The integer value representing this enumeration
          */
@@ -88,8 +88,8 @@ public class XboxController  {
     /**
      * Represents a digital button on the XboxController
      */
-    public static class ButtonType {
-
+    public static class ButtonType 
+    {
         /**
          * The integer value representing this enumeration
          */
@@ -119,8 +119,8 @@ public class XboxController  {
     /**
      * Represents a rumble output on the XboxController
      */
-    public static class RumbleType {
-
+    public static class RumbleType 
+    {
         /**
          * The integer value representing this enumeration
          */
@@ -155,7 +155,8 @@ public class XboxController  {
      *
      * @param port The port on the driver station that the XboxController is plugged into.
      */
-    public XboxController(final int port) {
+    public XboxController(final int port) 
+    {
         this(port, AxisType.kNumAxis.value, ButtonType.kNumButton.value);
 
         m_axes[AxisType.kLX.value] = kDefaultLXAxis;
@@ -182,7 +183,8 @@ public class XboxController  {
      * @param numAxisTypes The number of axis types in the enum.
      * @param numButtonTypes The number of button types in the enum.
      */
-    protected XboxController(int port, int numAxisTypes, int numButtonTypes) {
+    protected XboxController(int port, int numAxisTypes, int numButtonTypes) 
+    {
         m_ds = DriverStation.getInstance();
         m_axes = new byte[numAxisTypes];
         m_buttons = new byte[numButtonTypes];
@@ -196,7 +198,8 @@ public class XboxController  {
      * @param hand Unused
      * @return The X value of the XboxController.
      */
-    public double getLX(Hand hand) {
+    public double getLX(Hand hand) 
+    {
         return getRawAxis(m_axes[AxisType.kLX.value]);
     }
 
@@ -207,7 +210,8 @@ public class XboxController  {
      * @param hand Unused
      * @return The Y value of the XboxController.
      */
-    public double getLY(Hand hand) {
+    public double getLY(Hand hand) 
+    {
         return getRawAxis(m_axes[AxisType.kLY.value]);
     }
 
@@ -218,7 +222,8 @@ public class XboxController  {
      * @param hand Unused
      * @return The X value of the XboxController.
      */
-    public double getRX(Hand hand) {
+    public double getRX(Hand hand) 
+    {
         return getRawAxis(m_axes[AxisType.kRX.value]);
     }
 
@@ -229,7 +234,8 @@ public class XboxController  {
      * @param hand Unused
      * @return The Y value of the XboxController.
      */
-    public double getRY(Hand hand) {
+    public double getRY(Hand hand) 
+    {
         return getRawAxis(m_axes[AxisType.kRY.value]);
     }
 
@@ -240,7 +246,8 @@ public class XboxController  {
      * @param hand Unused
      * @return The Z value of the XboxController.
      */
-    public double getZ(Hand hand) {
+    public double getZ(Hand hand) 
+    {
         return getRawAxis(m_axes[AxisType.kZ.value]);
     }
 

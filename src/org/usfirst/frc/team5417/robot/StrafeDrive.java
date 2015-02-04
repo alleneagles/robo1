@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class StrafeDrive implements MotorSafety {
+public class StrafeDrive implements MotorSafety, Feedable {
 
 	public class MotorParameters {
 		public double f = 0;
@@ -19,7 +19,6 @@ public class StrafeDrive implements MotorSafety {
 		public double L = 0;
 		public double C = 0;
 		public double R = 0;
-
 	}
 
     public static final double kDefaultExpirationTime = 0.1;
@@ -33,11 +32,13 @@ public class StrafeDrive implements MotorSafety {
 	private SpeedController _RMotor;
 	private SpeedController _CMotor;
 	
+	/* Range [0.0-1.0] where 0.0 will stop the motor and 1.0 will allow the motor to run at full. */
 	private double _LFix = 0.4;
 	private double _CFix = 0.4;
 	private double _RFix = 0.3;
 	
-	public StrafeDrive(int leftPort, int rightPort, int centerPort) {
+	public StrafeDrive(int leftPort, int rightPort, int centerPort) 
+	{
 		// TODO: assign values
 		_LMotor = new Talon(leftPort);
 		_RMotor = new Talon(rightPort);
@@ -86,7 +87,7 @@ public class StrafeDrive implements MotorSafety {
 
 		UpdateSmartDashboard(mp);
 		
-        if (m_safetyHelper != null) m_safetyHelper.feed();
+		GlobalFeeder.feedAllMotors();
 	}
 
 	private MotorParameters CalcStrafeDrive(double f, double t, double s) {
@@ -201,12 +202,20 @@ public class StrafeDrive implements MotorSafety {
     	_LMotor.set(0.0);
     	_RMotor.set(0.0);
     	_CMotor.set(0.0);
-        if (m_safetyHelper != null) m_safetyHelper.feed();
+		GlobalFeeder.feedAllMotors();
     }
     
     private void setupMotorSafety() {
         m_safetyHelper = new MotorSafetyHelper(this);
         m_safetyHelper.setExpiration(kDefaultExpirationTime);
         m_safetyHelper.setSafetyEnabled(true);
+    }
+    
+    public void feedAllMotors()
+    {
+    	if (m_safetyHelper != null)
+    	{
+    		m_safetyHelper.feed();
+    	}
     }
 }

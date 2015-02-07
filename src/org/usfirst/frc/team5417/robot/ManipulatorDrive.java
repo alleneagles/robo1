@@ -87,11 +87,11 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 		this.changeControlModeForBothMotors(ControlMode.PercentVbus);
 		
 		MotorParameters mp = CalcManipulatorDrive(leftX, rightY);
-		UpdateSmartDashboard(mp);
 		
 		_aMotor.enableBrakeMode(false);
 		_bMotor.enableBrakeMode(false);
 
+		UpdateSmartDashboard(mp);
 		_aMotor.set(mp.A);
 		_bMotor.set(mp.B);
 		
@@ -198,9 +198,10 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 	 */
 	public MotorParameters CalcManipulatorDrive(double x, double y) 
 	{
-		MotorParameters mp = limitAtExtremes(x, y);
-		x = mp.x;
-		y = mp.y;
+		//MotorParameters mp = limitAtExtremes(x, y);
+		MotorParameters mp = new MotorParameters();
+		mp.x = x;
+		mp.y = y;
 
 		//
 		// now, calculate motor movements
@@ -276,14 +277,12 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 			B = y * y * _maxMotorSpeed;
 		}
 
-		MotorParameters m = new MotorParameters();
+		mp.x = x;
+		mp.y = y;
+		mp.A = A * _RFix; // TODO - which one is left and which one is right?
+		mp.B = B * _LFix;
 		
-		m.x = x;
-		m.y = y;
-		m.A = A * _RFix; // TODO - which one is left and which one is right?
-		m.B = B * _LFix;
-		
-		return m;
+		return mp;
 	}
 	
 	/**

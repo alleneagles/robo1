@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class StrafeDrive implements MotorSafety, Feedable {
+public class StrafeDrive implements IStrafeDrive, MotorSafety, Feedable {
 
 	public class MotorParameters {
 		public double f = 0;
@@ -78,7 +78,17 @@ public class StrafeDrive implements MotorSafety, Feedable {
 	public void strafeDrive(XboxController controller) {
 		MotorParameters mp = CalcStrafeDrive(controller.getLY(Hand.kLeft),
 				controller.getRX(Hand.kRight), controller.getLX(Hand.kLeft));
+
+		driveMotors(mp);
+	}
+	
+	public void drive(double f, double t, double s) {
+		MotorParameters mp = CalcStrafeDrive(f, t, s);
 		
+		driveMotors(mp);
+	}
+	
+	private void driveMotors(MotorParameters mp) {
         final byte syncGroup = (byte)0x80;
 
 		_LMotor.set (mp.L, syncGroup);

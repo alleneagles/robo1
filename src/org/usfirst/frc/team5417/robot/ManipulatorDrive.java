@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 
-public class ManipulatorDrive implements MotorSafety, Feedable {
+public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedable {
 
 	public class MotorParameters {
 		public double x, y;
@@ -89,6 +89,9 @@ public class ManipulatorDrive implements MotorSafety, Feedable {
 		MotorParameters mp = CalcManipulatorDrive(leftX, rightY);
 		UpdateSmartDashboard(mp);
 		
+		_aMotor.enableBrakeMode(false);
+		_bMotor.enableBrakeMode(false);
+
 		_aMotor.set(mp.A);
 		_bMotor.set(mp.B);
 		
@@ -181,6 +184,8 @@ public class ManipulatorDrive implements MotorSafety, Feedable {
 
 				_aMotor.set(0);
 				_bMotor.set(0);
+				_aMotor.enableBrakeMode(true);
+				_bMotor.enableBrakeMode(true);
 			}
 		}
 	}

@@ -1,6 +1,10 @@
 package org.usfirst.frc.team5417.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.communication.UsageReporting;
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tInstances;
+import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Joystick;
@@ -22,38 +26,77 @@ import edu.wpi.first.wpilibj.Timer;
  * instead if you're new.
  */
 public class Robot extends SampleRobot {
-//	XboxController strafeController;
-	XboxController manipulatorController;
-	//StrafeDrive strafe;
-	ManipulatorDrive manipulator;
+    
+	private int strafeControllerPort = 2;
+	private XboxController strafeController;
+	
+	private int manipulatorControllerPort = 0;
+	private XboxController manipulatorController;
+	
+	private IStrafeDrive strafe;
+	private IManipulatorDrive manipulator;
 
 	public Robot() {
-//		strafeController = new XboxController(0);
-		//strafe = new StrafeDrive(1, 0, 2);
-		//strafe.setExpiration(0.1);
+        super();
 
-		manipulatorController = new XboxController(0);
+        strafeController = new XboxController(strafeControllerPort);
+		//strafe = new StrafeDrive(1, 0, 2);
+		strafe = new DummyStrafeDrive();
+		strafe.setExpiration(0.1);
+
+		manipulatorController = new XboxController(manipulatorControllerPort);
 		manipulator = new ManipulatorDrive(0, 1, 2, 3, 10, 11);
+		//manipulator = new DummyManipulatorDrive();
 		manipulator.setExpiration(0.1);
 
-		//GlobalFeeder.addFeedableMotorSafety(strafe);
+		GlobalFeeder.addFeedableMotorSafety(strafe);
 		GlobalFeeder.addFeedableMotorSafety(manipulator);
 	}
+
+    /**
+     * Autonomous should go here.
+     * Users should add autonomous code to this method that should run while the field is
+     * in the autonomous period.
+     *
+     * Called once each time the robot enters the autonomous state.
+     */
+    public void autonomous() {
+    	strafe.setSafetyEnabled(false);
+    	manipulator.setSafetyEnabled(false);
+    	
+    	// TODO: tune these parameters
+    	double forward_f = 1.0;
+    	double no_t = 0.0;
+    	double no_s = 0.0;
+    	
+    	double totalDelaySeconds = 3; // TODO: tune this delay
+    	
+    	double initialMatchTime = Timer.getMatchTime();
+    	while (isAutonomous() && isEnabled()) {
+    		strafe.drive(forward_f, no_t, no_s);
+    		Timer.delay(0.05);
+    		
+    		double currentMatchTime = Timer.getMatchTime();
+    		if (currentMatchTime - initialMatchTime >= totalDelaySeconds)
+    			break;
+    	}
+    }
 
 	/**
 	 * Runs the motors with Strafe Drive steering.
 	 */
 	public void operatorControl() {
-		//strafe.setSafetyEnabled(true);
+		strafe.setSafetyEnabled(true);
 		manipulator.setSafetyEnabled(true);
 
 		//manipulator.moveToInitialPosition();
 
 		while (isOperatorControl() && isEnabled()) {
-//			strafe.strafeDrive(strafeController);
+			strafe.strafeDrive(strafeController);
 			manipulator.manipulatorControl(manipulatorController);
 
 			Timer.delay(0.005); // wait for a motor update time
 		}
 	}
+
 }

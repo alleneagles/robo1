@@ -113,11 +113,11 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 	{
 		GlobalFeeder.feedAllMotors();
 
-		double leftX = controller.getLX(Hand.kLeft);
-		double rightY = controller.getRY(Hand.kRight);
+		double rightX = controller.getRX(Hand.kLeft);
+		double leftY = controller.getLY(Hand.kRight);
 		
-		SmartDashboard.putNumber("Manip 'LeftX'", leftX);
-		SmartDashboard.putNumber("Manip 'RightY'", rightY);
+		SmartDashboard.putNumber("Manip 'LeftX'", rightX);
+		SmartDashboard.putNumber("Manip 'RightY'", leftY);
 		
 		boolean didPressResetPositionButton = false;
 		
@@ -147,11 +147,11 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 			//
 			// Move H-Bot Gantry Free Style
 			//
-			if (Math.abs(leftX) > _deadSpaceThreshold || Math.abs(rightY) > _deadSpaceThreshold )
+			if (Math.abs(rightX) > _deadSpaceThreshold || Math.abs(leftY) > _deadSpaceThreshold )
 			{
 				SmartDashboard.putString("Manip Mode", "Free Style");
 
-				moveInDirection(leftX, rightY);
+				moveInDirection(rightX, leftY);
 			}
 			//
 			// A button has been pressed, move manipulator quickly to initial position

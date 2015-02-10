@@ -27,10 +27,10 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class Robot extends SampleRobot {
     
-	private int strafeControllerPort = 2;
+	private int strafeControllerPort = 0;
 	private XboxController strafeController;
 	
-	private int manipulatorControllerPort = 0;
+	private int manipulatorControllerPort = 1;
 	private XboxController manipulatorController;
 	
 	private IStrafeDrive strafe;
@@ -40,13 +40,13 @@ public class Robot extends SampleRobot {
         super();
 
         strafeController = new XboxController(strafeControllerPort);
-		//strafe = new StrafeDrive(1, 0, 2);
-		strafe = new DummyStrafeDrive();
+        strafe = new StrafeDrive(1, 0, 2);
+		//strafe = new DummyStrafeDrive();
 		strafe.setExpiration(0.1);
 
 		manipulatorController = new XboxController(manipulatorControllerPort);
-		manipulator = new ManipulatorDrive(0, 1, 2, 3, 10, 11);
-		//manipulator = new DummyManipulatorDrive();
+		//manipulator = new ManipulatorDrive(10, 11);
+		manipulator = new DummyManipulatorDrive();
 		manipulator.setExpiration(0.1);
 
 		GlobalFeeder.addFeedableMotorSafety(strafe);

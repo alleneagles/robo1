@@ -33,9 +33,9 @@ public class StrafeDrive implements IStrafeDrive, MotorSafety, Feedable {
 	private SpeedController _CMotor;
 	
 	/* Range [0.0-1.0] where 0.0 will stop the motor and 1.0 will allow the motor to run at full. */
-	private double _LFix = 0.4;
-	private double _CFix = 0.4;
-	private double _RFix = 0.3;
+	private double _LFix = 1.0;
+	private double _CFix = 1.0;
+	private double _RFix = 0.9;
 	
 	public StrafeDrive(int leftPort, int rightPort, int centerPort) 
 	{

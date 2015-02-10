@@ -82,11 +82,11 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 		_bMotor.changeControlMode(controlMode);		
 	}
 	
-	public void moveInDirection(double leftX, double rightY)
+	public void moveInDirection(double rightX, double leftY)
 	{
 		this.changeControlModeForBothMotors(ControlMode.PercentVbus);
 		
-		MotorParameters mp = CalcManipulatorDrive(leftX, rightY);
+		MotorParameters mp = CalcManipulatorDrive(rightX, leftY);
 		
 		_aMotor.enableBrakeMode(false);
 		_bMotor.enableBrakeMode(false);
@@ -254,15 +254,15 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 		//
 		else if (x < 0)
 		{
-			// move left
-			A = x * x * _maxMotorSpeed;
-			B = x * x * _maxMotorSpeed;
-		}
-		else if (x > 0)
-		{
 			// move right
 			A = x * x * (-_maxMotorSpeed);
 			B = x * x * (-_maxMotorSpeed);
+		}
+		else if (x > 0)
+		{
+			// move left
+			A = x * x * _maxMotorSpeed;
+			B = x * x * _maxMotorSpeed;
 		}
 		else if (y > 0)
 		{

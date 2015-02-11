@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.communication.UsageReporting;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tInstances;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Joystick;
@@ -27,6 +28,8 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class Robot extends SampleRobot {
     
+	private CameraServer cameraServer;
+	
 	private int strafeControllerPort = 0;
 	private XboxController strafeController;
 	
@@ -38,6 +41,11 @@ public class Robot extends SampleRobot {
 
 	public Robot() {
         super();
+
+        cameraServer = CameraServer.getInstance();
+        cameraServer.setQuality(50);
+        //the camera name (ex "cam0") can be found through the roborio web interface
+        cameraServer.startAutomaticCapture("cam0");
 
         strafeController = new XboxController(strafeControllerPort);
         strafe = new StrafeDrive(1, 0, 2);

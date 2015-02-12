@@ -1,11 +1,11 @@
 package org.usfirst.frc.team5417.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID;
+//import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
-import edu.wpi.first.wpilibj.Joystick.ButtonType;
-import edu.wpi.first.wpilibj.Joystick.RumbleType;
+//import edu.wpi.first.wpilibj.Joystick.AxisType;
+//import edu.wpi.first.wpilibj.Joystick.ButtonType;
+//import edu.wpi.first.wpilibj.Joystick.RumbleType;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary;
 import edu.wpi.first.wpilibj.communication.UsageReporting;
 import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;

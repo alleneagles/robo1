@@ -1,14 +1,14 @@
 package org.usfirst.frc.team5417.robot;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj.communication.UsageReporting;
-import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tInstances;
-import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+//import edu.wpi.first.wpilibj.GenericHID.Hand;
+//import edu.wpi.first.wpilibj.communication.UsageReporting;
+//import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tInstances;
+//import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
+//import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.SampleRobot;
-import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Joystick;
+//import edu.wpi.first.wpilibj.RobotDrive;
+//import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -27,13 +27,12 @@ import edu.wpi.first.wpilibj.Timer;
  * instead if you're new.
  */
 public class Robot extends SampleRobot {
-    
 	private CameraServer cameraServer;
 	
-	private int strafeControllerPort = 0;
+	private int strafeControllerPort = 2; // USB Controller Port
 	private XboxController strafeController;
 	
-	private int manipulatorControllerPort = 1;
+	private int manipulatorControllerPort = 0; // USB Controller Port
 	private XboxController manipulatorController;
 	
 	private IStrafeDrive strafe;
@@ -48,13 +47,13 @@ public class Robot extends SampleRobot {
         cameraServer.startAutomaticCapture("cam0");
 
         strafeController = new XboxController(strafeControllerPort);
-        strafe = new StrafeDrive(1, 0, 2);
-		//strafe = new DummyStrafeDrive();
+        //strafe = new StrafeDrive(1, 0, 2);
+		strafe = new DummyStrafeDrive();
 		strafe.setExpiration(0.1);
 
 		manipulatorController = new XboxController(manipulatorControllerPort);
-		//manipulator = new ManipulatorDrive(10, 11);
-		manipulator = new DummyManipulatorDrive();
+		manipulator = new ManipulatorDrive(0, 1, 2, 3, 10, 11);
+		//manipulator = new DummyManipulatorDrive();
 		manipulator.setExpiration(0.1);
 
 		GlobalFeeder.addFeedableMotorSafety(strafe);

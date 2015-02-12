@@ -1,7 +1,7 @@
 package org.usfirst.frc.team5417.robot;
 
-import org.usfirst.frc.team5417.robot.StrafeDrive.MotorParameters;
-import org.usfirst.frc.team5417.robot.XboxController.ButtonType;
+//import org.usfirst.frc.team5417.robot.StrafeDrive.MotorParameters;
+//import org.usfirst.frc.team5417.robot.XboxController.ButtonType;
 
 import edu.wpi.first.wpilibj.CANTalon.ControlMode;
 import edu.wpi.first.wpilibj.MotorSafety;
@@ -16,7 +16,7 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 
 	public class MotorParameters {
 		public double x, y;
-		public double A, B;
+		public double R, L;
 	}
 
 	private DigitalInput _TopSwitch;
@@ -36,11 +36,19 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
     public static final double kDefaultExpirationTime = 0.1;
 	protected MotorSafetyHelper m_safetyHelper;
 	
-	private CANTalon _aMotor;
-	private CANTalon _bMotor;
+	private CANTalon _leftMotor;
+	private CANTalon _rightMotor;
 
+	/**
+	 * @param TopSwitchChannel
+	 * @param BottomSwitchChannel
+	 * @param OpenSwitchChannel
+	 * @param CloseSwitchChannel
+	 * @param leftDeviceNumber
+	 * @param bDeviceNumber
+	 * */
 	public ManipulatorDrive(int TopSwitchChannel, int BottomSwitchChannel,
-			int OpenSwitchChannel, int CloseSwitchChannel, int aDeviceNumber,
+			int OpenSwitchChannel, int CloseSwitchChannel, int leftDeviceNumber,
 			int bDeviceNumber) {
 
 		_TopSwitch = new DigitalInput(TopSwitchChannel);
@@ -48,8 +56,8 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 		_OpenSwitch = new DigitalInput(OpenSwitchChannel);
 		_CloseSwitch = new DigitalInput(CloseSwitchChannel);
 
-		_aMotor = new CANTalon(aDeviceNumber);
-		_bMotor = new CANTalon(bDeviceNumber);
+		_leftMotor = new CANTalon(leftDeviceNumber);
+		_rightMotor = new CANTalon(bDeviceNumber);
 		
 		setupMotorSafety();
 	}
@@ -78,8 +86,8 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 
 	public void changeControlModeForBothMotors(ControlMode controlMode)
 	{
-		_aMotor.changeControlMode(controlMode);
-		_bMotor.changeControlMode(controlMode);		
+		_leftMotor.changeControlMode(controlMode);
+		_rightMotor.changeControlMode(controlMode);		
 	}
 	
 	public void moveInDirection(double rightX, double leftY)
@@ -88,12 +96,12 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 		
 		MotorParameters mp = CalcManipulatorDrive(rightX, leftY);
 		
-		_aMotor.enableBrakeMode(false);
-		_bMotor.enableBrakeMode(false);
+		_leftMotor.enableBrakeMode(false);
+		_rightMotor.enableBrakeMode(false);
 
 		UpdateSmartDashboard(mp);
-		_aMotor.set(mp.A);
-		_bMotor.set(mp.B);
+		_leftMotor.set(mp.L);
+		_rightMotor.set(mp.R);
 		
 	}
 	
@@ -101,8 +109,16 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 	{
 		SmartDashboard.putNumber("Manip 'x'", mp.x);
 		SmartDashboard.putNumber("Manip 'y'", mp.y);
-		SmartDashboard.putNumber("Manip 'A'", mp.A);
-		SmartDashboard.putNumber("Manip 'B'", mp.B);
+		SmartDashboard.putNumber("Manip 'A'", mp.R);
+		SmartDashboard.putNumber("Manip 'B'", mp.L);
+	}
+	
+	public void UpdateSmartDashboardWithSwitchValues()
+	{
+		SmartDashboard.putBoolean("@ Top", _TopSwitch.get());
+		SmartDashboard.putBoolean("@ Bottom", _BottomSwitch.get());
+		SmartDashboard.putBoolean("@ Open", _TopSwitch.get());
+		SmartDashboard.putBoolean("@ Closed", _CloseSwitch.get());		
 	}
 	
 	/**
@@ -119,6 +135,8 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 		SmartDashboard.putNumber("Manip 'LeftX'", rightX);
 		SmartDashboard.putNumber("Manip 'RightY'", leftY);
 		
+		UpdateSmartDashboardWithSwitchValues();
+		
 		boolean didPressResetPositionButton = false;
 		
 		boolean stillWaiting = false;
@@ -131,7 +149,7 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 			double B_pos = 100; // TODO: get the position
 			
 			// ignore all input until we reach that position
-			if (A_pos == _aMotor.get() && B_pos == _bMotor.get())
+			if (A_pos == _leftMotor.get() && B_pos == _rightMotor.get())
 			{
 				isMoveToPositionCommandPending = false;
 				stillWaiting = false;
@@ -182,111 +200,110 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 
 				this.changeControlModeForBothMotors(ControlMode.Position);
 
-				_aMotor.set(0);
-				_bMotor.set(0);
-				_aMotor.enableBrakeMode(true);
-				_bMotor.enableBrakeMode(true);
+				_leftMotor.set(0);
+				_rightMotor.set(0);
+				_leftMotor.enableBrakeMode(true);
+				_rightMotor.enableBrakeMode(true);
 			}
 		}
 	}
 
 	/**
-	 * Given x and y from the joystick, calculate motor movements.
-	 * @param x
-	 * @param y
-	 * @return 
+	 * Given inputX and inputY from the joystick, calculate motor movements.
+	 * @param inputX
+	 * @param inputY
+	 * @return Calculated MotorParameters
 	 */
-	public MotorParameters CalcManipulatorDrive(double x, double y) 
+	public MotorParameters CalcManipulatorDrive(double inputX, double inputY) 
 	{
-		//MotorParameters mp = limitAtExtremes(x, y);
+//		MotorParameters mp = limitAtExtremes(inputX, inputY);
 		MotorParameters mp = new MotorParameters();
-		mp.x = x;
-		mp.y = y;
+		mp.x = inputX;
+		mp.y = inputY * -1.0;
 
 		//
 		// now, calculate motor movements
 		// Motor A is ??
 		// Motor B is ??
 		//
-		double A = 0, B = 0;
+		double R = 0, L = 0;
 
 		//if joystick is in middle, do nothing
-		if (Math.abs(x) <= _deadSpaceThreshold)
+		if (Math.abs(mp.x) <= _deadSpaceThreshold)
 		{
-			x = 0;
+			mp.x = 0;
 		}
 		
 		//if joystick is in middle, do nothing
-		if (Math.abs(y) <= _deadSpaceThreshold)
+		if (Math.abs(mp.y) <= _deadSpaceThreshold)
 		{	
-			y = 0;
+			mp.y = 0;
 		}
 		
 		//
 		// diagonals
 		//	
-		if (x < 0 && y < 0)
+		if (mp.x < 0 && mp.y < 0)
 		{
 			// Move down/left
-			A = x * y * (-_maxMotorSpeed);
-			B = 0.0;
+			R = 0.0;
+			L = mp.y * mp.y * _maxMotorSpeed;
 		}
-		else if (x > 0 && y < 0)
+		else if (mp.x > 0 && mp.y < 0)
 		{
 			// Move down/right
-			A = x * y * _maxMotorSpeed;
-			B = 0.0;
+			R = mp.y * mp.y * (-_maxMotorSpeed);
+			L = 0.0;
 		}
-		else if (x < 0 && y > 0)
+		else if (mp.x < 0 && mp.y > 0)
 		{
 			// Move up/left
-			A = 0.0;
-			B = x * y * (-_maxMotorSpeed);
+			R = 0.0;
+			L = mp.y * mp.y * (-_maxMotorSpeed);
 		}
-		else if (x > 0 && y > 0)
+		else if (mp.x > 0 && mp.y > 0)
 		{
 			// Move up/right
-			A = 0.0;
-			B = x * y * _maxMotorSpeed;
+			R = mp.y * mp.y * _maxMotorSpeed;
+			L = 0.0;
 		}
 		//
 		// cardinal directions
 		//
-		else if (x < 0)
+		else if (mp.x < 0)
 		{
 			// move right
-			A = x * x * (-_maxMotorSpeed);
-			B = x * x * (-_maxMotorSpeed);
+			R = mp.x * mp.x * (-_maxMotorSpeed);
+			L = mp.x * mp.x * (-_maxMotorSpeed);
 		}
-		else if (x > 0)
+		else if (mp.x > 0)
 		{
 			// move left
-			A = x * x * _maxMotorSpeed;
-			B = x * x * _maxMotorSpeed;
+			R = mp.x * mp.x * _maxMotorSpeed;
+			L = mp.x * mp.x * _maxMotorSpeed;
 		}
-		else if (y > 0)
+		else if (mp.y > 0)
 		{
 			// move up
-			A = y * y * _maxMotorSpeed;
-			B = y * y * (-_maxMotorSpeed);
+			R = mp.y * mp.y * _maxMotorSpeed;
+			L = mp.y * mp.y * (-_maxMotorSpeed);
 		}
-		else if (y < 0)
+		else if (mp.y < 0)
 		{
 			// move down
-			A = y * y * (-_maxMotorSpeed);
-			B = y * y * _maxMotorSpeed;
+			R = mp.y * mp.y * (-_maxMotorSpeed);
+			L = mp.y * mp.y * _maxMotorSpeed;
 		}
 
-		mp.x = x;
-		mp.y = y;
-		mp.A = A * _RFix; // TODO - which one is left and which one is right?
-		mp.B = B * _LFix;
+		mp.R = R * _RFix;
+		mp.L = L * _LFix;
 		
 		return mp;
 	}
 	
 	/**
-	 * Limit x and y if we are at the extremes of our permissible movement.
+	 * Limit x and y if we are at the extremes of our permissible movement based off 
+	 * of the Limit Switches for _TopSwitch, _BottomSwitch, _OpenSwitch, _CloseSwitch.
 	 * @param x
 	 * @param y
 	 * @return adjusted x and y.
@@ -334,8 +351,8 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 	}
 
 	public void stopMotor() {
-		_aMotor.set(0.0);
-		_bMotor.set(0.0);
+		_leftMotor.set(0.0);
+		_rightMotor.set(0.0);
 		GlobalFeeder.feedAllMotors();
 	}
 

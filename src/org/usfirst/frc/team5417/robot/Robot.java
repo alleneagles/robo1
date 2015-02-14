@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.SampleRobot;
 //import edu.wpi.first.wpilibj.RobotDrive;
 //import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This is a demo program showing the use of the RobotDrive class, specifically
@@ -41,10 +42,19 @@ public class Robot extends SampleRobot {
 	public Robot() {
         super();
 
-        cameraServer = CameraServer.getInstance();
-        cameraServer.setQuality(50);
-        //the camera name (ex "cam0") can be found through the roborio web interface
-        cameraServer.startAutomaticCapture("cam0");
+        try
+        {
+	        cameraServer = CameraServer.getInstance();
+	        cameraServer.setQuality(50);
+	        //the camera name (ex "cam0") can be found through the roborio web interface
+	        cameraServer.startAutomaticCapture("cam0");
+
+        	SmartDashboard.putString("Camera", "Connected");
+        }
+        catch (Exception ex)
+        {
+        	SmartDashboard.putString("Camera", "Not Connected");
+        }
 
         strafeController = new XboxController(strafeControllerPort);
         //strafe = new StrafeDrive(1, 0, 2);

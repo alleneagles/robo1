@@ -47,8 +47,8 @@ public class Robot extends SampleRobot {
         cameraServer.startAutomaticCapture("cam0");
 
         strafeController = new XboxController(strafeControllerPort);
-        //strafe = new StrafeDrive(1, 0, 2);
-		strafe = new DummyStrafeDrive();
+        strafe = new StrafeDrive(0, 1, 2); // Jess - switched left and right ports
+		//strafe = new DummyStrafeDrive();
 		strafe.setExpiration(0.1);
 
 		manipulatorController = new XboxController(manipulatorControllerPort);
@@ -72,7 +72,7 @@ public class Robot extends SampleRobot {
     	manipulator.setSafetyEnabled(false);
     	
     	// TODO: tune these parameters
-    	double forward_f = 1.0;
+    	double forward_f = -0.6; // Jess - changed to -1 to go forward, and to 60%
     	double no_t = 0.0;
     	double no_s = 0.0;
     	

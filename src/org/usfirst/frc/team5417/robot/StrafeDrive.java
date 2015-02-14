@@ -35,8 +35,7 @@ public class StrafeDrive implements IStrafeDrive, MotorSafety, Feedable {
 	/* Range [0.0-1.0] where 0.0 will stop the motor and 1.0 will allow the motor to run at full. */
 	private double _LFix = 1.0;
 	private double _CFix = 1.0;
-	private double _RFix = 0.9;
-	
+	private double _RFix = 1.0; // Jess - changed from .9 to 1.0.  Need to calibrate motors first.
 	public StrafeDrive(int leftPort, int rightPort, int centerPort) 
 	{
 		// TODO: assign values

@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends SampleRobot {
 	private CameraServer cameraServer;
 	
-	private int strafeControllerPort = 2; // USB Controller Port
+	private int strafeControllerPort = 1; // USB Controller Port
 	private XboxController strafeController;
 	
 	private int manipulatorControllerPort = 0; // USB Controller Port
@@ -57,7 +57,7 @@ public class Robot extends SampleRobot {
         }
 
         strafeController = new XboxController(strafeControllerPort);
-        strafe = new StrafeDrive(0, 1, 2); // Jess - switched left and right ports
+        strafe = new StrafeDrive(1, 0, 2);
 		//strafe = new DummyStrafeDrive();
 		strafe.setExpiration(0.1);
 
@@ -71,10 +71,6 @@ public class Robot extends SampleRobot {
 	}
 
     /**
-     * Autonomous should go here.
-     * Users should add autonomous code to this method that should run while the field is
-     * in the autonomous period.
-     *
      * Called once each time the robot enters the autonomous state.
      */
     public void autonomous() {
@@ -82,11 +78,11 @@ public class Robot extends SampleRobot {
     	manipulator.setSafetyEnabled(false);
     	
     	// TODO: tune these parameters
-    	double forward_f = -0.6; // Jess - changed to -1 to go forward, and to 60%
+    	double forward_f = -1.0;
     	double no_t = 0.0;
     	double no_s = 0.0;
     	
-    	double totalDelaySeconds = 3; // TODO: tune this delay
+    	double totalDelaySeconds = .3; // TODO: tune this delay
     	
     	double initialMatchTime = Timer.getMatchTime();
     	while (isAutonomous() && isEnabled()) {
@@ -94,7 +90,8 @@ public class Robot extends SampleRobot {
     		Timer.delay(0.05);
     		
     		double currentMatchTime = Timer.getMatchTime();
-    		if (currentMatchTime - initialMatchTime >= totalDelaySeconds)
+    		if (Math.abs(currentMatchTime - initialMatchTime) >= totalDelaySeconds)
+    			// TODO - we are going over 3 seconds
     			break;
     	}
     }

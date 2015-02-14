@@ -25,8 +25,8 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 	private DigitalInput _CloseSwitch;
 	
 	/* Range [0.0-1.0] where 0.0 will stop the motor and 1.0 will allow the motor to run at full. */
-	private final double _LFix = 0.3;
-	private final double _RFix = 0.3;
+	private final double _LFix = 1.0;
+	private final double _RFix = 1.0;
 	
 	/* Threshold value to use for when joystick is at center */
 	private final double _deadSpaceThreshold = 0.2 ;

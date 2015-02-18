@@ -216,11 +216,20 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 	 */
 	public MotorParameters CalcManipulatorDrive(double inputX, double inputY) 
 	{
-//		MotorParameters mp = limitAtExtremes(inputX, inputY);
-		MotorParameters mp = new MotorParameters();
-		mp.x = inputX;
-		mp.y = inputY * -1.0;
+		//
+		// use this line to use the limit switches
+		//
+		MotorParameters mp = limitAtExtremes(inputX, inputY * -1.0);
+		
+		//
+		// use these 3 lines to disregard the limit switches
+		//
+//		MotorParameters mp = new MotorParameters();
+//		mp.x = inputX;
+//		mp.y = inputY * -1.0;
 
+		
+		
 		//
 		// now, calculate motor movements
 		// Motor A is ??
@@ -310,30 +319,30 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 	 */
 	private MotorParameters limitAtExtremes(double x, double y)
 	{
+		MotorParameters mp = new MotorParameters();
+		mp.x = x;
+		mp.y = y;
+
 		boolean atTop = (_TopSwitch.get());
 		boolean atBottom = (_BottomSwitch.get());
 		boolean atOpen = (_OpenSwitch.get());
 		boolean atClose = (_CloseSwitch.get());
 		
 		if (atTop) {
-			y = 0;
+			mp.y = 0;
 		}
 
 		if (atBottom) {
-			y = 0;
+			mp.y = 0;
 		}
 
 		if (atOpen) {
-			x = 0;
+			mp.x = 0;
 		}
 
 		if (atClose) {
-			x = 0;
+			mp.x = 0;
 		}
-		
-		MotorParameters mp = new MotorParameters();
-		mp.x = x;
-		mp.y = y;
 		
 		return mp;
 	}

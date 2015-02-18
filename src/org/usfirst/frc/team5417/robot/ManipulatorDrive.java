@@ -266,30 +266,30 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 		}
 		else if (mp.x < 0 && mp.y > 0)
 		{
-			// Move up/left
-			R = 0.0;
-			L = mp.y * mp.y * (-_maxMotorSpeed);
-		}
-		else if (mp.x > 0 && mp.y > 0)
-		{
 			// Move up/right
 			R = mp.y * mp.y * _maxMotorSpeed;
 			L = 0.0;
+		}
+		else if (mp.x > 0 && mp.y > 0)
+		{
+			// Move up/left
+			R = 0.0;
+			L = mp.y * mp.y * (-_maxMotorSpeed);
 		}
 		//
 		// cardinal directions
 		//
 		else if (mp.x < 0)
 		{
-			// move right
-			R = mp.x * mp.x * (-_maxMotorSpeed);
-			L = mp.x * mp.x * (-_maxMotorSpeed);
-		}
-		else if (mp.x > 0)
-		{
 			// move left
 			R = mp.x * mp.x * _maxMotorSpeed;
 			L = mp.x * mp.x * _maxMotorSpeed;
+		}
+		else if (mp.x > 0)
+		{
+			// move right
+			R = mp.x * mp.x * (-_maxMotorSpeed);
+			L = mp.x * mp.x * (-_maxMotorSpeed);
 		}
 		else if (mp.y > 0)
 		{
@@ -331,7 +331,7 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 		// TODO: hook up all the switches
 		boolean atTop = false;
 		boolean atBottom = false;
-		boolean atOpen = false;
+		boolean atOpen = (_OpenSwitch.get());
 		boolean atClose = (_CloseSwitch.get());
 		
 		if (atTop && y > _deadSpaceThreshold) {

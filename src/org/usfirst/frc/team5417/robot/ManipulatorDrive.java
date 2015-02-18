@@ -323,24 +323,30 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 		mp.x = x;
 		mp.y = y;
 
-		boolean atTop = (_TopSwitch.get());
-		boolean atBottom = (_BottomSwitch.get());
-		boolean atOpen = (_OpenSwitch.get());
+//		boolean atTop = (_TopSwitch.get());
+//		boolean atBottom = (_BottomSwitch.get());
+//		boolean atOpen = (_OpenSwitch.get());
+//		boolean atClose = (_CloseSwitch.get());
+
+		// TODO: hook up all the switches
+		boolean atTop = false;
+		boolean atBottom = false;
+		boolean atOpen = false;
 		boolean atClose = (_CloseSwitch.get());
 		
-		if (atTop) {
+		if (atTop && y > _deadSpaceThreshold) {
 			mp.y = 0;
 		}
 
-		if (atBottom) {
+		if (atBottom && y < _deadSpaceThreshold) {
 			mp.y = 0;
 		}
 
-		if (atOpen) {
+		if (atOpen && x < _deadSpaceThreshold) {
 			mp.x = 0;
 		}
 
-		if (atClose) {
+		if (atClose && x > _deadSpaceThreshold) {
 			mp.x = 0;
 		}
 		

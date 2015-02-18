@@ -33,7 +33,7 @@ public class Robot extends SampleRobot {
 	private int strafeControllerPort = 1; // USB Controller Port
 	private XboxController strafeController;
 	
-	private int manipulatorControllerPort = 0; // USB Controller Port
+	private int manipulatorControllerPort = 2; // USB Controller Port
 	private XboxController manipulatorController;
 	
 	private IStrafeDrive strafe;

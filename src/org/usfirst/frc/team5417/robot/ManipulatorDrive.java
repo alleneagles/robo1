@@ -117,7 +117,7 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 	{
 		SmartDashboard.putBoolean("@ Top", _TopSwitch.get());
 		SmartDashboard.putBoolean("@ Bottom", _BottomSwitch.get());
-		SmartDashboard.putBoolean("@ Open", _TopSwitch.get());
+		SmartDashboard.putBoolean("@ Open", _OpenSwitch.get());
 		SmartDashboard.putBoolean("@ Closed", _CloseSwitch.get());		
 	}
 	

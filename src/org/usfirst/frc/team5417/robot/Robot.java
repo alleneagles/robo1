@@ -78,11 +78,12 @@ public class Robot extends SampleRobot {
     	manipulator.setSafetyEnabled(false);
     	
     	// TODO: tune these parameters
-    	double forward_f = -1.0;
-    	double no_t = 0.0;
-    	double no_s = 0.0;
+    	final double forward_f = -1.0;
+    	final double no_t = 0.0;
+    	final double no_s = 0.0;
+    	final double no_f = 0.0;
     	
-    	double totalDelaySeconds = .3; // TODO: tune this delay
+    	double totalDelaySeconds = 2; // TODO: tune this delay
     	
     	double initialMatchTime = Timer.getMatchTime();
     	while (isAutonomous() && isEnabled()) {
@@ -91,9 +92,10 @@ public class Robot extends SampleRobot {
     		
     		double currentMatchTime = Timer.getMatchTime();
     		if (Math.abs(currentMatchTime - initialMatchTime) >= totalDelaySeconds)
-    			// TODO - we are going over 3 seconds
     			break;
     	}
+    	
+    	strafe.drive(no_f, no_t, no_s); // stop // TODO - Bryan check
     }
 
 	/**

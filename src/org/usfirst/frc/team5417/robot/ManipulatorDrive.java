@@ -132,8 +132,8 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 		double rightX = controller.getRX(Hand.kLeft);
 		double leftY = controller.getLY(Hand.kRight);
 		
-		SmartDashboard.putNumber("Manip 'LeftX'", rightX);
-		SmartDashboard.putNumber("Manip 'RightY'", leftY);
+		SmartDashboard.putNumber("Manip 'RightX'", rightX);
+		SmartDashboard.putNumber("Manip 'LeftY'", leftY);
 		
 		UpdateSmartDashboardWithSwitchValues();
 		

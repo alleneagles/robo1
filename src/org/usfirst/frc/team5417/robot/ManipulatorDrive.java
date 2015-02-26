@@ -70,18 +70,28 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 		boolean atBottom = _BottomSwitch.get();
 		boolean atOpen = _OpenSwitch.get();
 		
+		final double x_open = -1.0;
+		final double y_down = 1.0;
+		
 		// move to open position
 		while (atBottom == false || atOpen == false)
 		{
 			GlobalFeeder.feedAllMotors();
 			
 			// TODO: move in the correct direction by giving fake x and y parameters
-			moveInDirection(1.0, 1.0);
+			moveInDirection(x_open, y_down);
 			Timer.delay(0.05);
 
 			atBottom = _BottomSwitch.get();
 			atOpen = _OpenSwitch.get();
 		}
+		
+		this.changeControlModeForBothMotors(ControlMode.Position);
+
+		_leftMotor.set(0);
+		_rightMotor.set(0);
+		_leftMotor.enableBrakeMode(true);
+		_rightMotor.enableBrakeMode(true);
 	}
 
 	public void changeControlModeForBothMotors(ControlMode controlMode)
@@ -330,7 +340,7 @@ public class ManipulatorDrive implements IManipulatorDrive, MotorSafety, Feedabl
 
 		// TODO: hook up all the switches
 		boolean atTop = false;
-		boolean atBottom = false;
+		boolean atBottom = (_BottomSwitch.get());
 		boolean atOpen = (_OpenSwitch.get());
 		boolean atClose = (_CloseSwitch.get());
 		

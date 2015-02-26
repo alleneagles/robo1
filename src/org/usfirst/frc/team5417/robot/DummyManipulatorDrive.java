@@ -6,6 +6,11 @@ public class DummyManipulatorDrive implements IManipulatorDrive {
 		
 	}
 
+	public void moveToInitialPosition()
+	{
+		
+	}
+	
 	public void setExpiration(double timeout) {
 		
 	}

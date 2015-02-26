@@ -30,10 +30,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends SampleRobot {
 	private CameraServer cameraServer;
 	
-	private int strafeControllerPort = 1; // USB Controller Port
+	private int strafeControllerPort = 0; // USB Controller Port
 	private XboxController strafeController;
 	
-	private int manipulatorControllerPort = 2; // USB Controller Port
+	private int manipulatorControllerPort = 1; // USB Controller Port
 	private XboxController manipulatorController;
 	
 	private IStrafeDrive strafe;
@@ -77,25 +77,27 @@ public class Robot extends SampleRobot {
     	strafe.setSafetyEnabled(false);
     	manipulator.setSafetyEnabled(false);
     	
-    	// TODO: tune these parameters
-    	final double forward_f = -1.0;
-    	final double no_t = 0.0;
-    	final double no_s = 0.0;
-    	final double no_f = 0.0;
-    	
-    	double totalDelaySeconds = 2; // TODO: tune this delay
-    	
-    	double initialMatchTime = Timer.getMatchTime();
-    	while (isAutonomous() && isEnabled()) {
-    		strafe.drive(forward_f, no_t, no_s);
-    		Timer.delay(0.05);
-    		
-    		double currentMatchTime = Timer.getMatchTime();
-    		if (Math.abs(currentMatchTime - initialMatchTime) >= totalDelaySeconds)
-    			break;
-    	}
-    	
-    	strafe.drive(no_f, no_t, no_s); // stop // TODO - Bryan check
+    	manipulator.moveToInitialPosition();
+//    	
+//    	// TODO: tune these parameters
+//    	final double forward_f = -1.0;
+//    	final double no_t = 0.0;
+//    	final double no_s = 0.0;
+//    	final double no_f = 0.0;
+//    	
+//    	double totalDelaySeconds = .2; // TODO: tune this delay
+//    	
+//    	double initialMatchTime = Timer.getMatchTime();
+//    	while (isAutonomous() && isEnabled()) {
+//    		strafe.drive(forward_f, no_t, no_s);
+//    		Timer.delay(0.05);
+//    		
+//    		double currentMatchTime = Timer.getMatchTime();
+//    		if (Math.abs(currentMatchTime - initialMatchTime) >= totalDelaySeconds)
+//    			break;
+//    	}
+//    	
+//    	strafe.drive(no_f, no_t, no_s); // stop // TODO - Bryan check
     }
 
 	/**

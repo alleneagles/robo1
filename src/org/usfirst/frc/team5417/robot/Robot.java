@@ -74,41 +74,29 @@ public class Robot extends SampleRobot {
      * Called once each time the robot enters the autonomous state.
      */
     public void autonomous() {
-//    	strafe.setSafetyEnabled(false);
-//    	manipulator.setSafetyEnabled(false);
+    	strafe.setSafetyEnabled(false);
+    	manipulator.setSafetyEnabled(false);
 //    	
 //    	manipulator.moveToInitialPosition();
 //    	
     	// TODO: tune these parameters
-//    	final double full_f = 1.0;
-//    	final double full_b = -1.0;
+//    	final double full_f = -1.0;
+//    	final double full_b = 1.0;
 //    	final double full_l = -1.0;
 //    	final double full_r = 1.0;
 //    	
-//    	final double half_f = 0.5;
-    	final double half_b = -0.5;
+//    	final double half_f = -0.5;
+    	final double half_b = 0.5;
 //    	final double half_l = -0.5;
 //    	final double half_r = 0.5;
 //    	
-//    	final double quarter_f = 0.25;
-//    	final double quarter_b = -0.25;
+//    	final double quarter_f = -0.25;
+//    	final double quarter_b = 0.25;
 //    	final double quarter_l = -0.25;
 //    	final double quarter_r = 0.25;
 //    	
     	final double stop = 0.0;
 //    	
-//    	double totalDelaySeconds = .2; // TODO: tune this delay; Delay is in Milliseconds, as are all Java time Units
-//    	
-//    	double initialMatchTime = Timer.getMatchTime();
-//    	while (isAutonomous() && isEnabled()) {
-//    		strafe.drive(half_b, stop, stop);
-//    		Timer.delay(500);
-//    		
-//    		double currentMatchTime = Timer.getMatchTime();
-//    		if (Math.abs(currentMatchTime - initialMatchTime) >= totalDelaySeconds)
-//    			break;
-//    	}
-    	
     	strafe.drive(half_b, stop, stop);
     	Timer.delay(0.5);
     	

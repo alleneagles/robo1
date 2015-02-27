@@ -30,10 +30,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends SampleRobot {
 	private CameraServer cameraServer;
 	
-	private int strafeControllerPort = 0; // USB Controller Port
+	private int strafeControllerPort = 2; // USB Controller Port
 	private XboxController strafeController;
 	
-	private int manipulatorControllerPort = 1; // USB Controller Port
+	private int manipulatorControllerPort = 0; // USB Controller Port
 	private XboxController manipulatorController;
 	
 	private IStrafeDrive strafe;
@@ -73,34 +73,46 @@ public class Robot extends SampleRobot {
     /**
      * Called once each time the robot enters the autonomous state.
      */
-    public void autonomous() {
-    	strafe.setSafetyEnabled(false);
-    	manipulator.setSafetyEnabled(false);
-    	
-    	manipulator.moveToInitialPosition();
+//    public void autonomous() {
+//    	strafe.setSafetyEnabled(false);
+//    	manipulator.setSafetyEnabled(false);
+//    	
+//    	manipulator.moveToInitialPosition();
 //    	
 //    	// TODO: tune these parameters
-//    	final double forward_f = -1.0;
-//    	final double no_t = 0.0;
-//    	final double no_s = 0.0;
-//    	final double no_f = 0.0;
+//    	final double full_f = 1.0;
+//    	final double full_b = -1.0;
+//    	final double full_l = -1.0;
+//    	final double full_r = 1.0;
 //    	
-//    	double totalDelaySeconds = .2; // TODO: tune this delay
+//    	final double half_f = 0.5;
+//    	final double half_b = -0.5;
+//    	final double half_l = -0.5;
+//    	final double half_r = 0.5;
+//    	
+//    	final double quarter_f = 0.25;
+//    	final double quarter_b = -0.25;
+//    	final double quarter_l = -0.25;
+//    	final double quarter_r = 0.25;
+//    	
+//    	final double stop = 0.0;
+//    	
+//    	double totalDelaySeconds = .2; // TODO: tune this delay; Delay is in Milliseconds, as are all Java time Units
 //    	
 //    	double initialMatchTime = Timer.getMatchTime();
 //    	while (isAutonomous() && isEnabled()) {
-//    		strafe.drive(forward_f, no_t, no_s);
-//    		Timer.delay(0.05);
+//    		strafe.drive(half_b, stop, stop);
+//    		Timer.delay(500);
 //    		
 //    		double currentMatchTime = Timer.getMatchTime();
 //    		if (Math.abs(currentMatchTime - initialMatchTime) >= totalDelaySeconds)
 //    			break;
 //    	}
 //    	
-//    	strafe.drive(no_f, no_t, no_s); // stop // TODO - Bryan check
+//    	strafe.drive(stop, stop, stop); // stop // TODO - Bryan check
+//    }
+    	/**
     }
-
-	/**
 	 * Runs the motors with Strafe Drive steering.
 	 */
 	public void operatorControl() {
@@ -113,6 +125,7 @@ public class Robot extends SampleRobot {
 			strafe.strafeDrive(strafeController);
 			manipulator.manipulatorControl(manipulatorController);
 
+			
 			Timer.delay(0.005); // wait for a motor update time
 		}
 	}

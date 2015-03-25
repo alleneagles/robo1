@@ -30,7 +30,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends SampleRobot {
 	private CameraServer cameraServer;
 	
-	private int strafeControllerPort = 2; // USB Controller Port
+	private int strafeControllerPort = 1; // USB Controller Port
 	private XboxController strafeController;
 	
 	private int manipulatorControllerPort = 0; // USB Controller Port
@@ -45,7 +45,7 @@ public class Robot extends SampleRobot {
         try
         {
 	        cameraServer = CameraServer.getInstance();
-	        cameraServer.setQuality(50);
+	        cameraServer.setQuality(30);
 	        //the camera name (ex "cam0") can be found through the roborio web interface
 	        cameraServer.startAutomaticCapture("cam0");
 
@@ -74,43 +74,47 @@ public class Robot extends SampleRobot {
      * Called once each time the robot enters the autonomous state.
      */
     public void autonomous() {
-//    	strafe.setSafetyEnabled(false);
-//    	manipulator.setSafetyEnabled(false);
-//    	
-//    	manipulator.moveToInitialPosition();
-//    	
+    	strafe.setSafetyEnabled(false);
+    	manipulator.setSafetyEnabled(false);
+    	
+    	manipulator.moveToInitialPosition();
+    	
     	// TODO: tune these parameters
-//    	final double full_f = 1.0;
-//    	final double full_b = -1.0;
-//    	final double full_l = -1.0;
-//    	final double full_r = 1.0;
-//    	
-//    	final double half_f = 0.5;
-    	final double half_b = -0.5;
-//    	final double half_l = -0.5;
-//    	final double half_r = 0.5;
-//    	
-//    	final double quarter_f = 0.25;
-//    	final double quarter_b = -0.25;
-//    	final double quarter_l = -0.25;
-//    	final double quarter_r = 0.25;
-//    	
+    	final double half_neg = -1.0;
+    	final double half_pos = 1.0;
+    	
     	final double stop = 0.0;
-//    	
-//    	double totalDelaySeconds = .2; // TODO: tune this delay; Delay is in Milliseconds, as are all Java time Units
-//    	
-//    	double initialMatchTime = Timer.getMatchTime();
+    	
+    	double totalDelaySeconds = .2; // TODO: tune this delay; Delay is in Milliseconds, as are all Java time Units
+    	
+    	double initialMatchTime = Timer.getMatchTime();
 //    	while (isAutonomous() && isEnabled()) {
-//    		strafe.drive(half_b, stop, stop);
+//    		strafe.drive(half_neg, stop, stop);
 //    		Timer.delay(500);
+//    		
+//    		
 //    		
 //    		double currentMatchTime = Timer.getMatchTime();
 //    		if (Math.abs(currentMatchTime - initialMatchTime) >= totalDelaySeconds)
 //    			break;
 //    	}
+
+//    	// drive forward for 2.5 seconds
+//    	strafe.drive(half_neg, stop, stop);
+//    	Timer.delay(2.5);
+
+    	// drive forward for 2.5 seconds
+    	strafe.drive(stop, stop, 0.75);
+    	Timer.delay(2);
+
+    	//strafe.drive(half_neg, stop, stop);
+    	//Timer.delay(0.1);
     	
-    	strafe.drive(half_b, stop, stop);
-    	Timer.delay(0.5);
+    	//strafe.drive(stop, stop, half_pos);
+    	//Timer.delay(0.1);
+    	
+    	//strafe.drive(stop, 0.0, half_neg);
+    	//Timer.delay(0.1);
     	
     	strafe.drive(stop, stop, stop);
     }
